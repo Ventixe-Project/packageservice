@@ -12,7 +12,14 @@ namespace PackageService.Services
         {
             try
             {
-                var packageEntity = new PackageEntity { };
+                var packageEntity = new PackageEntity
+                {
+                    EventId = request.EventId,
+                    PackageName = request.PackageName,
+                    Description = request.Description,
+                    Price = request.Price,
+                    Type = request.Type,
+                };
                 var result = await _packageRepository.AddAsync(packageEntity);
                 return result.Success
                     ? new PackageResult { Success = true }

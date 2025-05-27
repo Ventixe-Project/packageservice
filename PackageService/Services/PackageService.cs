@@ -66,5 +66,23 @@ namespace PackageService.Services
             }
             return new PackageResult<Package?> { Success = false, Error = "Package not found" };
         }
+
+        public async Task<PackageResult<IEnumerable<Package>>> GetPackagesByEventAsync(
+            string eventId
+        )
+        {
+            var result = await _packageRepository.GetByEventIdAsync(eventId);
+            var packages = result.Result?.Select(x => new Package
+            {
+                EventId = x.EventId,
+                Id = x.Id,
+                PackageName = x.PackageName,
+                Description = x.Description,
+                Price = x.Price,
+                Type = x.Type,
+            });
+
+            return new PackageResult<IEnumerable<Package>> { Success = true, Result = packages };
+        }
     }
 }

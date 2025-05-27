@@ -7,5 +7,6 @@ namespace PackageService.Services
         Task<PackageResult> CreatePackageAsync(CreatePackageRequest request);
         Task<PackageResult<Package?>> GetPackageAsync(string packageId);
         Task<PackageResult<IEnumerable<Package>>> GetPackagesAsync();
+        Task<PackageResult<IEnumerable<Package>>> GetPackagesByEventAsync(string eventId);
     }
 }

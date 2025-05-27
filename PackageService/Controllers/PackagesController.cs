@@ -11,17 +11,22 @@ namespace PackageService.Controllers
         private readonly IPackageService _packageService = packageService;
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string? eventId)
         {
-            var events = await _packageService.GetPackagesAsync();
-            return Ok(events);
+            if (!string.IsNullOrEmpty(eventId))
+            {
+                var packages = await _packageService.GetPackagesByEventAsync(eventId);
+                return Ok(packages);
+            }
+            var allPackages = await _packageService.GetPackagesAsync();
+            return Ok(allPackages);
         }
 
         [HttpGet("{packageId}")]
         public async Task<IActionResult> Get(string packageId)
         {
-            var currentEvent = await _packageService.GetPackageAsync(packageId);
-            return currentEvent != null ? Ok(currentEvent) : NotFound();
+            var currentPackage = await _packageService.GetPackageAsync(packageId);
+            return currentPackage != null ? Ok(currentPackage) : NotFound();
         }
 
         [HttpPost]
